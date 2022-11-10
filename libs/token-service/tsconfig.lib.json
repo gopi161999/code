@@ -3,9 +3,9 @@
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
     "declaration": true,
+    "types": ["node"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "types": [],
     "target": "es6"
   },
   "include": ["**/*.ts"],
