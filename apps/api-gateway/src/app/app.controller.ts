@@ -29,7 +29,7 @@ export class AppController {
     return HttpStatus.OK;
   }
   @Post('')
-  async testFirstService(
+  async gatewayController(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     @Body() payload: IGatewayPayload<any, any>,
     @Headers('route') routeHeader: string,
