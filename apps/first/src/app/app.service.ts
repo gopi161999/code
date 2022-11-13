@@ -6,88 +6,91 @@ import { v4 as uuidv4 } from 'uuid';
 // import { urlAlphabet } from 'nanoid';
 @Injectable()
 export class AppService {
-  constructor(private jwt: AuthService, private ps: PrismaService) {}
-  getData(): { message: string } {
-    return { message: 'Welcome to first!' };
-  }
-  async login(user: any) {
-    //console.log(user);
-    const vUser = await this.validateUser(user.username, user.password);
-    console.log(vUser);
-    if (vUser) {
-      const payload = {
-        uid: vUser.uid,
-        username: vUser.name,
-        email: vUser.email,
-        roles: vUser.roles,
-      };
-      return {
-        status: 'SUCCESS',
-        data: this.jwt.sign(payload),
-        msg: 'Successfully login',
-      };
+    constructor(private jwt: AuthService, private ps: PrismaService) {}
+    getData(): { message: string } {
+        return { message: 'Welcome to first!' };
     }
-    return {
-      status: 'ERROR',
-      msg: 'Invalid user',
-    };
-  }
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.findUser(username, pass);
-    if (user && user.password === pass) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+    async login(user: any) {
+        console.log('HI', user);
+        const vUser = await this.validateUser(
+            user.data.username,
+            user.data.password
+        );
+        // console.log(vUser);
+        if (vUser) {
+            const payload = {
+                uid: vUser.uid,
+                username: vUser.name,
+                email: vUser.email,
+                roles: vUser.roles,
+            };
+            return {
+                status: 'SUCCESS',
+                data: this.jwt.sign(payload),
+                msg: 'Successfully login',
+            };
+        }
+        return {
+            status: 'ERROR',
+            msg: 'Invalid user',
+        };
     }
-    return null;
-  }
-  async findUser(username: string, password: string) {
-    return await this.ps.user.findFirst({
-      where: {
-        name: username,
-        password: password,
-      },
-    });
-  }
-  async signup(createUserDto): Promise<{
-    status: string;
-    data: any;
-    msg: string;
-  }> {
-    const user = await this.ps.user.findFirst({
-      where: {
-        name: createUserDto.username,
-        email: createUserDto.email,
-        password: createUserDto.password,
-      },
-    });
-    if (user)
-      return {
-        status: 'ERROR',
-        data: null,
-        msg: 'user details already exist',
-      };
-    const newUser = await this.ps.user.create({
-      data: {
-        uid: uuidv4(),
-        email: createUserDto.email,
-        password: createUserDto.password,
-        name: createUserDto.username,
-        roles: createUserDto.roles,
-      },
-    });
-    return {
-      status: 'SUCCESS',
-      data: newUser,
-      msg: 'user created successfully',
-    };
-  }
-  async getUsers() {
-    return this.ps.user.findMany();
-  }
-  async findUsersById(id: number) {
-    return await this.ps.user.findUnique({ where: { id: id } });
-  }
+    async validateUser(username: string, pass: string): Promise<any> {
+        const user = await this.findUser(username, pass);
+        if (user && user.password === pass) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { password, ...result } = user;
+            return result;
+        }
+        return null;
+    }
+    async findUser(username: string, password: string) {
+        return await this.ps.user.findFirst({
+            where: {
+                name: username,
+                password: password,
+            },
+        });
+    }
+    async signup(createUserDto): Promise<{
+        status: string;
+        data: any;
+        msg: string;
+    }> {
+        const user = await this.ps.user.findFirst({
+            where: {
+                name: createUserDto.data.username,
+                email: createUserDto.data.email,
+                password: createUserDto.data.password,
+            },
+        });
+        if (user)
+            return {
+                status: 'ERROR',
+                data: null,
+                msg: 'user details already exist',
+            };
+        const newUser = await this.ps.user.create({
+            data: {
+                uid: uuidv4(),
+                email: createUserDto.email,
+                password: createUserDto.password,
+                name: createUserDto.username,
+                roles: createUserDto.roles,
+            },
+        });
+        return {
+            status: 'SUCCESS',
+            data: newUser,
+            msg: 'user created successfully',
+        };
+    }
+    // async getUsers() {
+    //   return this.ps.user.findMany();
+    // }
+    // async findUsersById(id: number) {
+    //   return await this.ps.user.findUnique({ where: { id: id } });
+    // }
 }
 /*
 async update(createUserDto: CreateUserDto) {

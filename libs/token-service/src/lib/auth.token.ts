@@ -12,9 +12,10 @@ export class AuthService {
     });
   }
   verify(token: string) {
-    console.log(process.env.JWTSECRET);
-    return this.jwtService.verify(token, {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { iat, exp, ...rest } = this.jwtService.verify(token, {
       secret: process.env.JWTSECRET,
     });
+    return rest;
   }
 }
