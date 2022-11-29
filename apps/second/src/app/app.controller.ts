@@ -12,4 +12,13 @@ export class AppController {
             msg: 'from  - second microservice!',
         };
     }
+    @MessagePattern('f_society')
+    microserviceF(data: string) {
+        console.log('second', data);
+        return {
+            data: 'mr.robot',
+            ststus: 'SUCCESS',
+            msg: 'from the new header named as f society ',
+        };
+    }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Injectable } from '@nestjs/common';
 import { AuthService } from 'libs/token-service/src/lib/auth.token';
-import { PrismaService } from '../../../../libs/utils/src/lib/utils.module';
+import { PrismaService } from 'libs/utils/src/lib/utils.service';
 import { v4 as uuidv4 } from 'uuid';
 // import { urlAlphabet } from 'nanoid';
 @Injectable()

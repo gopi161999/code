@@ -6,10 +6,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthService } from 'libs/token-service/src/lib/auth.token';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'libs/utils/src/lib/utils.module';
+import { MyUtilsModule } from 'libs/utils/src/lib/utils.module';
+import { PrismaService } from 'libs/utils/src/lib/utils.service';
 @Module({
-  imports: [TokenServiceModule],
-  controllers: [AppController],
-  providers: [AppService, JwtService, AuthService, PrismaService],
+    imports: [TokenServiceModule, MyUtilsModule],
+    controllers: [AppController],
+    providers: [AppService, JwtService, AuthService, PrismaService],
 })
 export class AppModule {}

@@ -19,9 +19,17 @@ export const IncomingHeaders = {
             doneWith: 'service_data',
         },
     ],
+    NEW_HEADER: [
+        {
+            header: 'f_society',
+            permission: '3',
+            auth: true,
+            doneWith: 'new_data',
+        },
+    ],
     API_SIGNUP: [{ header: 'SIGNUP', auth: false, doneWith: 'Signup details' }],
     API_LOGIN: [{ header: 'LOGIN', auth: false, doneWith: 'Login details' }],
-    API_TESTING: [{ header: 'f_service', permission: '3', auth: true }],
+    API_TESTING: [{ header: 'f_service', permission: '1', auth: true }],
 };
 
 // export type IHeaders = keyof typeof IncomingHeaders;
